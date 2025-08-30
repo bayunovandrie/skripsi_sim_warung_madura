@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\StockManajementModel;
+use App\Models\ProductModel;
 
 class StockController extends BaseController
 {
@@ -66,6 +67,22 @@ class StockController extends BaseController
 
         $create = $this->stockManajement->insert($data_create);
 
+        $dataStockNow = new ProductModel();
+
+        $stockNow = $dataStockNow->select('TotalStock')
+        ->where('ProductCode', $product_code)
+        ->first();
+        // kurangin atau tambah stock
+        if($stock_type == "Keluar") {
+            $stockAkhir = $stockNow['TotalStock'] - $qty;
+        } else {
+            $stockAkhir = $stockNow['TotalStock'] + $qty;
+        }
+
+        $dataStockNow->set('TotalStock', $stockAkhir)
+                 ->where('ProductCode', $product_code)
+                 ->update();
+                 
         if ($create) {
             $status = true;
             $message = "Data stok berhasil disimpan";

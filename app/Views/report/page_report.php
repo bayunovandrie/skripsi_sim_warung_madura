@@ -5,13 +5,32 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0">
-                <div class="d-flex justify-content-between">
-                    <h6>Daftar Produk</h6>
-                    <button class="btn btn-xs bg-gradient-primary" id="btn_add_product" title="Tambah Product"
-                        data-action-form="<?= base_url('insert-product') ?>">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
+                <label>Filter Tanggal : </label>
+                <form action="<?= base_url('report-item') ?>" method="post">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">From</label>
+                                <input type="date" name="from" class="form-control"
+                                    value="<?= isset($_POST['from']) ? $_POST['from'] : date('Y-m-d') ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Until</label>
+                                <input type="date" name="until" class="form-control"
+                                    value="<?= isset($_POST['until']) ? $_POST['until'] : date('Y-m-d') ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" style="visibility: hidden;">fillter</label>
+                                <button class="btn btn-sm btn-primary form-control">Filter</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             </div>
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
@@ -19,9 +38,8 @@
                         <thead>
                             <tr>
                                 <th
-                                    class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7">
-                                    Gambar
-                                </th>
+                                    class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">
+                                    No</th>
                                 <th
                                     class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">
                                     Kode Produk</th>
@@ -30,24 +48,31 @@
                                     Nama Produk</th>
                                 <th
                                     class="text-center text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7">
-                                    Tipe Sembako</th>
+                                    Tipe</th>
+
                                 <th
                                     class="text-center text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7">
-                                    Generate QR</th>
-                                <th
-                                    class="text-center text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7">
-                                    Total Stok</th>
-                                <th
-                                    class="text-center text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7">
-                                    Action</th>
+                                    Qty
+                                </th>
                             </tr>
                         </thead>
                         <tbody style=" font-size: 12px;">
-                            <?php foreach($product as $val): ?>
+                            <?php 
+                            $no = 1;
+                            $total_stock_masuk = 0;
+                            $total_stock_keluar = 0;
+                            foreach($history as $val): 
+                                if ($val['TypeStock'] == 1) {
+                                    // keluar
+                                    $total_stock_keluar += $val['Qty'];
+                                } else {
+                                    // masuk
+                                    $total_stock_masuk += $val['Qty'];
+                                }?>
                             <tr>
+
                                 <td class="text-center">
-                                    <img src="<?= ($val['ProductImg'] == null) ? base_url("assets/img/box.png") : base_url('uploads/products/' . $val['ProductImg']) ?>"
-                                        alt="Gambar Product" style="width: 50px;">
+                                    <?= $no++; ?>
                                 </td>
                                 <td class="text-center">
                                     <?= $val['ProductCode'] ?>
@@ -58,47 +83,25 @@
                                         style="height: 5px; background-color: <?= return_color_product($val['ProductCode']) ?>; margin-top: 5px;">
                                     </div>
                                 </td>
-                                <td class="text-center">
-                                    <?= ($val['ProductType'] == 1) ? "Kemasan" : "Satuan" ?>
+                                <td
+                                    class="text-center <?= ($val['TypeStock'] == 1) ? "text-danger" : "text-success" ?>">
+                                    <?= ($val['TypeStock'] == 1) ? "Keluar" : "Masuk" ?>
                                 </td>
 
-                                <td class="text-center">
-                                    <?php if($val['QrProduct'] == null) : ?>
-                                    <button type="button" class="btn btn-xs bg-gradient-primary m-auto"
-                                        data-product-code="<?= $val['ProductCode'] ?>"
-                                        data-url-create="<?= base_url("insert-qrcode") ?>" id="btn_generate_qr"
-                                        title="Generate QR"><i class="fa-solid fa-qrcode"></i> </button>
-                                    <?php else: ?>
-                                    <a href="<?= base_url('uploads/qr_product/') . $val['QrProduct'] ?>"
-                                        class="btn btn-xs bg-gradient-success m-auto" title="Download QR" download=""><i
-                                            class="fa-solid fa-download"></i></a> |
-                                    <button class="btn btn-xs bg-gradient-info m-auto open_modal_qr"
-                                        data-product-name="<?= $val['ProductName'] ?>"
-                                        data-img-qr="<?= $val['QrProduct'] ?>" title="Lihat Qr"><i
-                                            class="fa-solid fa-eye"></i></button>
-
-                                    <?php endif ?>
-                                </td>
-                                <td class="text-center">
-                                    <span style="font-weight: 800;"><?= $val['TotalStock'] ?></span>
-                                </td>
-
-                                <td class="text-center">
-                                    <button class="btn btn-xs bg-gradient-warning m-auto btn_update_product"
-                                        data-action-form="<?= base_url('update-product') ?>"
-                                        data-product-code="<?= $val['ProductCode'] ?>"><i
-                                            class="fas fa-edit"></i></button> |
-                                    <button type="button"
-                                        class="btn btn-xs bg-gradient-danger m-auto btn_delete_product"
-                                        data-action-form="<?= base_url('delete-product') ?>"
-                                        data-product-code="<?= $val['ProductCode'] ?>"
-                                        data-product-name="<?= $val['ProductName'] ?>"><i
-                                            class="fas fa-trash-alt"></i></button>
+                                <td
+                                    class="text-center <?= ($val['TypeStock'] == 1) ? "text-danger" : "text-success" ?>">
+                                    <?= ($val['TypeStock'] == 1) ? "- " . $val['Qty'] : "+" . $val['Qty'] ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                </div>
+
+                <hr>
+                <div class="container">
+                    <h6>Total Stok Masuk : <?= $total_stock_masuk ?></h6>
+                    <h6>Total Stok Keluar : <?= $total_stock_keluar ?></h6>
                 </div>
             </div>
         </div>

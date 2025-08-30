@@ -22,3 +22,7 @@ $routes->post('/insert-stok-by-qr', 'StockController::InsertStock');
 
 // profile
 $routes->get('/profile', 'ProfileController::index');
+
+// report
+$routes->get('/report-item', 'ReportController::index');
+$routes->post('/report-item', 'ReportController::index');

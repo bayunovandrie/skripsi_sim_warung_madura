@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
                 <div class="row">
@@ -11,7 +11,7 @@
                         <div class="numbers">
                             <p class="text-sm mb-0 text-uppercase font-weight-bold">Stok Masuk</p>
                             <h5 class="font-weight-bolder">
-                                50
+                                <?= $return['StockMasuk'] ?>
                             </h5>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
                 <div class="row">
@@ -32,7 +32,7 @@
                         <div class="numbers">
                             <p class="text-sm mb-0 text-uppercase font-weight-bold">Stok Keluar</p>
                             <h5 class="font-weight-bolder">
-                                10
+                                <?= $return['StockKeluar'] ?>
                             </h5>
                         </div>
                     </div>
@@ -45,28 +45,8 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-8">
-                        <div class="numbers">
-                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Pembeli</p>
-                            <h5 class="font-weight-bolder">
-                                500
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="col-4 text-end">
-                        <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                            <i class="fas fa-user text-lg opacity-10" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
+
+    <div class="col-xl-4 col-sm-6">
         <div class="card">
             <div class="card-body p-3">
                 <div class="row">
@@ -74,7 +54,7 @@
                         <div class="numbers">
                             <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Stok</p>
                             <h5 class="font-weight-bolder">
-                                500
+                                <?= $return['TotalStock'] ?>
                             </h5>
                         </div>
                     </div>
@@ -123,8 +103,8 @@
                                     Kode Sembako</th>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nama
                                     Sembako</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tipe
-                                    Sembako</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah
+                                    Stok</th>
                             </tr>
                         </thead>
                         <tbody style=" font-size: 12px;">
@@ -144,7 +124,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <?= ($val['ProductType'] == 1) ? "Kemasan" : "Satuan" ?>
+                                    <span style="font-weight: 800;"><?= $val['TotalStock'] ?></span>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
