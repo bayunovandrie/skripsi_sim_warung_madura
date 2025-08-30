@@ -19,3 +19,6 @@ $routes->post('/delete-product', 'ProductController::delete');
 $routes->get('/stock-out', 'StockController::StockOut');
 $routes->get('/stock-in', 'StockController::StockIn');
 $routes->post('/insert-stok-by-qr', 'StockController::InsertStock');
+
+// profile
+$routes->get('/profile', 'ProfileController::index');
