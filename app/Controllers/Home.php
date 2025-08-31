@@ -60,4 +60,13 @@ class Home extends BaseController
         
         return view('home/page_home', $data);
     }
+
+    public function getProduct()
+    {
+        $data = $this->product
+                 ->select('ProductName, TotalStock')
+                 ->findAll();
+
+        echo json_encode($data);
+    }
 }

@@ -6,7 +6,7 @@
         <div class="card mb-4">
             <div class="card-header pb-0">
                 <label>Filter Tanggal : </label>
-                <form action="<?= base_url('report-item') ?>" method="post">
+                <form action="<?= base_url('user/report-item') ?>" method="post">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">

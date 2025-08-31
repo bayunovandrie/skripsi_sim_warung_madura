@@ -8,7 +8,7 @@
                 <div class="d-flex justify-content-between">
                     <h6>Daftar Produk</h6>
                     <button class="btn btn-xs bg-gradient-primary" id="btn_add_product" title="Tambah Product"
-                        data-action-form="<?= base_url('insert-product') ?>">
+                        data-action-form="<?= base_url('user/insert-product') ?>">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
@@ -66,7 +66,7 @@
                                     <?php if($val['QrProduct'] == null) : ?>
                                     <button type="button" class="btn btn-xs bg-gradient-primary m-auto"
                                         data-product-code="<?= $val['ProductCode'] ?>"
-                                        data-url-create="<?= base_url("insert-qrcode") ?>" id="btn_generate_qr"
+                                        data-url-create="<?= base_url("user/insert-qrcode") ?>" id="btn_generate_qr"
                                         title="Generate QR"><i class="fa-solid fa-qrcode"></i> </button>
                                     <?php else: ?>
                                     <a href="<?= base_url('uploads/qr_product/') . $val['QrProduct'] ?>"
@@ -85,12 +85,12 @@
 
                                 <td class="text-center">
                                     <button class="btn btn-xs bg-gradient-warning m-auto btn_update_product"
-                                        data-action-form="<?= base_url('update-product') ?>"
+                                        data-action-form="<?= base_url('user/update-product') ?>"
                                         data-product-code="<?= $val['ProductCode'] ?>"><i
                                             class="fas fa-edit"></i></button> |
                                     <button type="button"
                                         class="btn btn-xs bg-gradient-danger m-auto btn_delete_product"
-                                        data-action-form="<?= base_url('delete-product') ?>"
+                                        data-action-form="<?= base_url('user/delete-product') ?>"
                                         data-product-code="<?= $val['ProductCode'] ?>"
                                         data-product-name="<?= $val['ProductName'] ?>"><i
                                             class="fas fa-trash-alt"></i></button>

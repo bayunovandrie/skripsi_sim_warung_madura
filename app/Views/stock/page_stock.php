@@ -11,7 +11,8 @@
                     <h6>Stok <?= $stock_type ?></h6>
                     <button class="btn btn-xs bg-gradient-primary" id="btn_add_stock_manajement"
                         title="Tambah Stock <?= $stock_type ?>"
-                        data-action-form="<?= base_url('insert-stock-product') ?>" data-stock-type="<?= $stock_type ?>">
+                        data-action-form="<?= base_url('user/insert-stock-product') ?>"
+                        data-stock-type="<?= $stock_type ?>">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>

@@ -436,13 +436,30 @@
 
         });
 
+        // handle add user
+        $("#btn_add_user").on("click", function(e) {
+            e.preventDefault();
+
+            let modalProduct = $('#modal_add');
+            let actionUrl = $(this).data('action-form');
+
+            modalProduct.modal('show');
+            modalProduct.find('#inputPassword').removeClass('d-none');
+            modalProduct.find('#jikaInputPassword').addClass('d-none');
+            modalProduct.find('#password').attr('required', true);
+            modalProduct.find('#username').val('');
+            modalProduct.find('#password').val('');
+            modalProduct.find('#form_create_product').attr('action', actionUrl);
+
+        });
+
         // handle update product
         $('.btn_update_product').on('click', function() {
             let actionForm = $(this).data('action-form');
             let productCode = $(this).data('product-code');
             let modalProduct = $('#modal_add');
             $.ajax({
-                url: '<?= base_url(relativePath: 'get-data-product-by-code') ?>',
+                url: '<?= base_url(relativePath: 'user/get-data-product-by-code') ?>',
                 method: 'post',
                 data: {
                     product_code: productCode
@@ -478,6 +495,37 @@
 
         })
 
+        // HANDLE UPDATE USERS
+        $('.btn_update_user').on('click', function() {
+            let actionForm = $(this).data('action-form');
+            let userID = $(this).data('user-id');
+            let username = $(this).data('username');
+            let modalUser = $('#modal_add');
+
+            modalUser.modal('show');
+
+            modalUser.find('#password').attr('required', false);
+            modalUser.find('#modalAddLabel').text('Update User');
+            modalUser.find('#inputPassword').addClass('d-none');
+            modalUser.find('#jikaInputPassword').removeClass('d-none');
+            modalUser.find('#username').val(username);
+            modalUser.find('#userid').val(userID);
+            modalUser.find('#form_create_product').attr('action', actionForm);
+
+            modalUser.find('#gantiPasswordYa').prop('checked', false);
+            modalUser.find('#gantiPasswordTidak').prop('checked', true);
+
+            modalUser.find('input[name="change_password"]').off('change').on('change', function() {
+                if ($(this).val() === '1') {
+                    modalUser.find('#inputPassword').removeClass('d-none');
+                    modalUser.find('#password').attr('required', true);
+                } else {
+                    modalUser.find('#inputPassword').addClass('d-none');
+                    modalUser.find('#password').attr('required', false).val('');
+                }
+            });
+        })
+
         // handle delete product
         $(".btn_delete_product").on('click', function(e) {
             e.preventDefault();
@@ -494,6 +542,24 @@
 
             modalDelete.find('.modal-body').html(
                 `<p>Apakah anda yakin untuk menghapus produk : <strong>${productName}</strong></p>`)
+
+        })
+
+        $(".btn_delete_user").on('click', function(e) {
+            e.preventDefault();
+
+            let modalDelete = $('#modal_delete');
+            let userID = $(this).data("user-id");
+            let username = $(this).data("username");
+            let actionForm = $(this).data("action-form");
+
+            modalDelete.modal('show');
+            modalDelete.find("#form_modal_delete").attr('action', actionForm);
+            modalDelete.find("#modal_delete_label").text("Hapus User");
+            modalDelete.find("#value_post").val(userID);
+
+            modalDelete.find('.modal-body').html(
+                `<p>Apakah anda yakin untuk menghapus user : <strong>${username}</strong></p>`)
 
         })
 
@@ -560,52 +626,71 @@
     });
     </script>
 
-
     <script>
-    var ctxPie = document.getElementById("chart-pie").getContext("2d");
+    function getProductData(callback) {
+        $.ajax({
+            url: '<?= base_url('get-data-product') ?>',
+            dataType: 'json',
+            success: function(response) {
+                callback(response); // kirim data ke callback
+            },
+        });
+    }
 
-    new Chart(ctxPie, {
-        type: "pie",
-        data: {
-            labels: [
-                "Beras", "Minyak Goreng", "Gula Pasir", "Mie Instan",
-                "Telur Ayam", "Tepung Terigu", "Kecap", "Garam", "Air Galon"
-            ],
-            datasets: [{
-                label: "Data Stok",
-                data: [10, 2, 1, 0, 5, 9, 1, 3, 6],
-                backgroundColor: [
-                    "#4e73df", // Beras
-                    "#1cc88a", // Minyak
-                    "#36b9cc", // Gula
-                    "#f6c23e", // Mie
-                    "#e74a3b", // Telur
-                    "#6f42c1", // Tepung
-                    "#fd7e14", // Kecap
-                    "#20c997", // Garam
-                    "#ff6384" // Air Galon
-                ],
+    // panggil AJAX → bikin chart setelah data siap
+    getProductData(function(data) {
+        // ambil label produk dari response
+        let labels = data.map(item => item.ProductName);
+        let stok = data.map(item => item.TotalStock);
 
-                borderColor: "#fff",
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        font: {
-                            family: 'Open Sans',
-                            size: 13
+        console.log(labels);
+
+        // kalau stok juga ada di response, bisa map langsung
+        // contoh: let stok = data.map(item => item.Stok);
+        // sementara ini kita buat dummy data
+
+        var ctxPie = document.getElementById("chart-pie").getContext("2d");
+
+        new Chart(ctxPie, {
+            type: "pie",
+            data: {
+                labels: labels, // dari AJAX
+                datasets: [{
+                    label: "Data Stok",
+                    data: stok, // data stok (sementara hardcode)
+                    backgroundColor: [
+                        "#4e73df", // Beras
+                        "#1cc88a", // Minyak
+                        "#36b9cc", // Gula
+                        "#f6c23e", // Mie
+                        "#e74a3b", // Telur
+                        "#6f42c1", // Tepung
+                        "#fd7e14", // Kecap
+                        "#20c997", // Garam
+                        "#ff6384" // Air Galon
+                    ],
+                    borderColor: "#fff",
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: 'Open Sans',
+                                size: 13
+                            }
                         }
                     }
                 }
             }
-        }
+        });
     });
     </script>
+
 
 
     <script>

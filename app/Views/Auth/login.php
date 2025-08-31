@@ -14,7 +14,7 @@
             </div>
 
             <h2>Selamat datang kembali 👋</h2>
-            <p class="lead">Masuk ke akunmu untuk mengelola stok, dan laporan. Aman, cepat, dan mudah dipakai.
+            <p class="lead">Masuk ke akunmu untuk mengelola stok, dan laporan. Aman, cepat, dan mudah digunakan.
             </p>
 
             <div class="features" aria-hidden="true">
