@@ -72,6 +72,10 @@
         overflow: hidden;
     }
 
+    .hero {
+        display: block;
+    }
+
     /* left hero */
     .hero {
         padding: 28px;
@@ -276,6 +280,11 @@
 
     /* small screens */
     @media (max-width:900px) {
+
+        .hero {
+            display: none;
+        }
+
         .card {
             grid-template-columns: 1fr;
             max-width: 520px;

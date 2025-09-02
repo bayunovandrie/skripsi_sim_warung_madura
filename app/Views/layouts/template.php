@@ -175,7 +175,7 @@
 
             // Kirim data ke controller via AJAX
             $.ajax({
-                url: '<?= base_url('insert-stok-by-qr') ?>',
+                url: '<?= base_url('user/insert-stok-by-qr') ?>',
                 method: 'POST',
                 dataType: 'json',
                 data: {
