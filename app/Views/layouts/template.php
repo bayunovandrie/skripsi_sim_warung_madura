@@ -145,7 +145,7 @@
 
             Html5Qrcode.getCameras().then(devices => {
                 if (devices && devices.length) {
-                    let cameraId = devices[0].id;
+                    let cameraId = devices[1].id;
                     html5QrCode.start(cameraId, config, qrCodeSuccessCallback)
                         .then(() => {
                             isCameraRunning = true;

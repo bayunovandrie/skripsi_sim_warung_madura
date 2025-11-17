@@ -24,8 +24,8 @@ class ReportController extends BaseController
         $from = $this->request->getPost('from');
         $until = $this->request->getPost('until');
 
-        $query = $this->reportStock->select('stockmanajement.*, listproduct.ProductName') // ambil kolom tambahan
-        ->join('listproduct', 'listproduct.ProductCode = stockmanajement.ProductCode', 'left');
+        $query = $this->reportStock->select('StockManajement.*, ListProduct.ProductName') // ambil kolom tambahan
+        ->join('ListProduct', 'ListProduct.ProductCode = StockManajement.ProductCode', 'left');
 
         if(isset($from)) {
             $query = $query->where('DATE(DateInput) >=', $from)

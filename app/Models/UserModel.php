@@ -118,7 +118,7 @@ class UserModel extends Model
         return new User([
             'email'    => $faker->email,
             'username' => $faker->userName,
-            'password' => bin2hex(random_bytes(16)),
+            'password_hash' => bin2hex(random_bytes(16)),
         ]);
     }
 }

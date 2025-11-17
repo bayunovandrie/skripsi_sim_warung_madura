@@ -22,6 +22,9 @@ class ProductController extends BaseController
         $data['title'] = "Manajemen Stok | Product";
         $data['topbar_name'] = "Product";
 
+        // echo "oke";
+        // die;
+
         $data['product'] = $this->product->findAll();
         
         return view('product/page_product', $data);data: 

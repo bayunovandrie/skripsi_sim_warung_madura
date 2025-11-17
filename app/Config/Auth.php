@@ -253,7 +253,8 @@ class Auth extends \Myth\Auth\Config\Auth
      *
      * @var int|string
      */
-    public $hashAlgorithm = PASSWORD_DEFAULT;
+    public $hashAlgorithm = PASSWORD_BCRYPT;
+    public $hashOptions = ['cost' => 10];
 
     /**
      * --------------------------------------------------------------------

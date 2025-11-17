@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Myth\Auth\Models\UserModel;
 use App\Models\GroupModel;
+use Myth\Auth\Password;
 
 class ProfileController extends BaseController
 {
@@ -40,9 +41,10 @@ class ProfileController extends BaseController
             ]);
         }
 
+        $hash = Password::hash($this->request->getPost('password'));
         $data = [
             'username' => $username,
-            'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'password_hash' => $hash,
             'active'   => 1,
         ];
 
@@ -93,23 +95,30 @@ class ProfileController extends BaseController
         }
 
         if($change_password == 1) {
-            $password = $this->request->getPost('password');
+            
+            $hash = Password::hash($this->request->getPost('password'));
 
             $data_update = [
                 'username' => $username,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
+                'password_hash' => $hash
             ];
+
+            $userModel->update($userID, $data_update);
         } else {
             $data_update = [
                 'username' => $username
             ];
+            $userModel->update($userID, $data_update);
         }
 
-        $userModel->update($userID, $data_update);
+        // echo json_encode($data_update);
+        // die;
+
+        
 
         return $this->response->setJSON([
             'status' => true,
-            'message' => 'User berhasil diupdate!'
+            'message' => 'User berhasil diupdate!',
         ]);
     }
 

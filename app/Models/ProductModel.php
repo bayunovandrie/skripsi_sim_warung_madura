@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class ProductModel extends Model
 {
-    protected $table            = 'listproduct';
+    protected $table            = 'ListProduct';
     protected $primaryKey       = 'ProductID';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
