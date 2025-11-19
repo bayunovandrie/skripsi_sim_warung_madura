@@ -47,4 +47,5 @@ $routes->group('user', ['filter' => 'role:user'], function($routes) {
     //  report
     $routes->get('report-item', 'ReportController::index');
     $routes->post('report-item', 'ReportController::index');
+    $routes->get('report-item-stock', 'ReportController::export_excel');
 });

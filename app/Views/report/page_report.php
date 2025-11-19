@@ -28,6 +28,12 @@
                                 <button class="btn btn-sm btn-primary form-control">Filter</button>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="" style="visibility: hidden;">Export</label>
+                                <a href="<?= base_url('user/report-item-stock') ?>" class="btn btn-sm btn-dark form-control">Export Excel</a>
+                            </div>
+                        </div>
                     </div>
                 </form>
 
